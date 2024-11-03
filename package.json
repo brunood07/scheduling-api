@@ -1,0 +1,43 @@
+{
+  "name": "scheduling-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup src --out-dir build",
+    "dev": "tsx watch src/main.ts",
+    "start": "node build/main.js",
+    "test": "vitest run",
+    "test:e2e": "vitest run --config ./vite.config.e2e.mts",
+    "test:e2e:watch": "vitest --config ./vite.config.e2e.mts",
+    "test:cov": "vitest run --coverage",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "eslint",
+    "prepare": "husky install",
+    "vercel-build": "npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.8.7",
+    "eslint": "^9.14.0",
+    "prisma": "^5.21.1",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "unplugin-swc": "^1.5.1",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^2.1.4"
+  }
+}
