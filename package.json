@@ -14,7 +14,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint",
-    "vercel-build": "npx prisma generate"
+    "vercel-build": ""
   },
   "keywords": [],
   "author": "",
