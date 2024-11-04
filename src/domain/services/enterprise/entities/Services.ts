@@ -15,6 +15,10 @@ export class Service {
     this.props = props;
   }
 
+  get id() {
+    return this.props.id;
+  }
+
   get name() {
     return this.props.name;
   }
@@ -31,15 +35,21 @@ export class Service {
     return this.props.durationInMinutes;
   }
 
-  static create(props: ServiceProps): ServiceProps {
-    const service = new Service({
+  static create(props: Omit<ServiceProps, "id">): Service {
+    return new Service({
       ...props,
       id: randomUUID(),
     });
-    return service.toObject();
   }
 
-  toObject(): ServiceProps {
-    return { ...this.props };
+  toJSON() {
+    // Return properties directly as a plain object
+    return {
+      id: this.id,
+      name: this.name,
+      description: this.description,
+      price: this.price,
+      durationInMinutes: this.durationInMinutes,
+    };
   }
 }

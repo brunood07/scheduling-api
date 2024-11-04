@@ -18,6 +18,10 @@ export class Scheduling {
     this.props = props;
   }
 
+  get id() {
+    return this.props.id;
+  }
+
   get attendantId() {
     return this.props.attendantId;
   }
@@ -30,11 +34,11 @@ export class Scheduling {
     return this.props.selectedService;
   }
 
-  get scheduledStart() {
+  get schedulingStart() {
     return this.props.schedulingStart;
   }
 
-  get scheduledEnd() {
+  get schedulingEnd() {
     return this.props.schedulingEnd;
   }
 
@@ -46,15 +50,24 @@ export class Scheduling {
     return this.props.rescheduled;
   }
 
-  static create(props: SchedulingProps): SchedulingProps {
-    const scheduling = new Scheduling({
+  static create(props: Omit<SchedulingProps, "id">): Scheduling {
+    return new Scheduling({
       ...props,
       id: randomUUID(),
     });
-    return scheduling.toObject();
   }
 
-  toObject(): SchedulingProps {
-    return { ...this.props };
+  toJSON() {
+    // Return properties directly as a plain object
+    return {
+      id: this.id,
+      attendantId: this.attendantId,
+      clientId: this.clientId,
+      selectedService: this.selectedService,
+      schedulingStart: this.schedulingStart,
+      schedulingEnd: this.schedulingEnd,
+      description: this.description,
+      rescheduled: this.rescheduled,
+    };
   }
 }

@@ -1,21 +1,24 @@
 import { randomUUID } from "node:crypto";
-import { ClientRoles } from "../enums/ClientRoles";
 
-export interface UserProps {
+export interface ClientProps {
   id?: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  role: ClientRoles;
+  role: string;
   dateOfBirth: Date;
   password: string;
 }
 
 export class Client {
-  private props: UserProps;
+  private props: ClientProps;
 
-  private constructor(props: UserProps) {
+  private constructor(props: ClientProps) {
     this.props = props;
+  }
+
+  get id() {
+    return this.props.id;
   }
 
   get firstName() {
@@ -42,15 +45,22 @@ export class Client {
     return this.props.password;
   }
 
-  static create(props: UserProps): UserProps {
-    const client = new Client({
+  static create(props: ClientProps): Client {
+    return new Client({
       ...props,
-      id: randomUUID(),
+      id: props.id ? props.id : randomUUID(),
     });
-    return client.toObject();
   }
 
-  toObject(): UserProps {
-    return { ...this.props };
+  toJSON() {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phoneNumber: this.phoneNumber,
+      role: this.role,
+      dateOfBirth: this.dateOfBirth,
+      password: this.password,
+    };
   }
 }

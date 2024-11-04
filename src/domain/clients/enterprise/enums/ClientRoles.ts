@@ -1,6 +1,6 @@
 enum ClientRoles {
-  user,
-  admin
+  CLIENT = "Client",
+  ADMIN = "Admin",
 }
 
 export { ClientRoles };

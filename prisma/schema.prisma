@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRoles {
+  ADMIN
+  EMPLOYEE
+  CLIENT
+}
+
+model User {
+  id          String   @id @default(uuid())
+  firstName   String   @map("first_name") @db.VarChar(100)
+  lastName    String   @map("last_name") @db.VarChar(200)
+  phoneNumber String   @unique @map("phone_number")
+  password    String
+  dateOfBirth DateTime @map("date_of_birth")
+  role        String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  EmployeeWorkHours  EmployeeWorkHours[]
+  EmployeeOutDays    EmployeeOutDays[]
+  SchedulingEmployee Scheduling[]        @relation("employee-relation")
+  SchedulingClient   Scheduling[]        @relation("client-relation")
+  UserToken          UserToken[]
+
+  @@map("tb_users")
+}
+
+model Establishment {
+  id          String @id @default(uuid())
+  name        String @db.VarChar(200)
+  description String @db.VarChar(500)
+
+  latitude  Decimal
+  longitude Decimal
+
+  openHour  DateTime @map("open_hour") @db.Time()
+  closeHour DateTime @map("close_hour") @db.Time()
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("tb_establishments")
+}
+
+model EmployeeWorkHours {
+  id        String   @id @default(uuid())
+  startHour DateTime @map("start_hour") @db.Time()
+  endHour   DateTime @map("end_hour") @db.Time()
+  weekDay   Int      @map("week_day")
+
+  User       User?  @relation(fields: [employeeId], references: [id])
+  employeeId String @map("employee_id")
+
+  @@map("tb_employee_work_hours")
+}
+
+model EmployeeOutDays {
+  id        String   @id @default(uuid())
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+
+  User       User?  @relation(fields: [employeeId], references: [id])
+  employeeId String @map("employee_id")
+}
+
+model Service {
+  id            String       @id @default(uuid())
+  serviceNumber Int          @unique @map("service_number")
+  name          String
+  Scheduling    Scheduling[]
+}
+
+model Scheduling {
+  id String @id @default(uuid())
+
+  User        User?  @relation("employee-relation", fields: [attendantId], references: [id])
+  attendantId String @map("attendant_id")
+
+  UserClient User?  @relation("client-relation", fields: [clientId], references: [id])
+  clientId   String @map("client_id")
+
+  Service         Service? @relation(fields: [selectedService], references: [serviceNumber])
+  selectedService Int      @map("selected_service")
+
+  schedulingStart DateTime @map("scheduling_start") @db.Time()
+  schedulingEnd   DateTime @map("scheduling_end") @db.Time()
+  description     String
+  rescheduled     Boolean
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model UserToken {
+  id           String   @id @default(uuid())
+  refreshToken String   @unique @map("refresh_token")
+  userId       String   @map("user_id")
+  User         User?    @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("tb_user_tokens")
+}
