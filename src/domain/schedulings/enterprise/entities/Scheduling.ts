@@ -4,11 +4,11 @@ export interface SchedulingProps {
   id?: string;
   attendantId: string;
   clientId: string;
-  selectedService: number;
   schedulingStart: Date;
   schedulingEnd: Date;
   description: string;
   rescheduled: boolean;
+  serviceId: string;
 }
 
 export class Scheduling {
@@ -30,10 +30,6 @@ export class Scheduling {
     return this.props.clientId;
   }
 
-  get selectedService() {
-    return this.props.selectedService;
-  }
-
   get schedulingStart() {
     return this.props.schedulingStart;
   }
@@ -50,10 +46,14 @@ export class Scheduling {
     return this.props.rescheduled;
   }
 
-  static create(props: Omit<SchedulingProps, "id">): Scheduling {
+  get serviceId() {
+    return this.props.serviceId;
+  }
+
+  static create(props: SchedulingProps): Scheduling {
     return new Scheduling({
       ...props,
-      id: randomUUID(),
+      id: props.id ? props.id : randomUUID(),
     });
   }
 
@@ -63,11 +63,11 @@ export class Scheduling {
       id: this.id,
       attendantId: this.attendantId,
       clientId: this.clientId,
-      selectedService: this.selectedService,
       schedulingStart: this.schedulingStart,
       schedulingEnd: this.schedulingEnd,
       description: this.description,
       rescheduled: this.rescheduled,
+      serviceId: this.serviceId
     };
   }
 }

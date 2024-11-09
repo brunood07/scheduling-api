@@ -4,6 +4,7 @@ import { makeUser } from '../../../../../../tests/factories/make-user';
 import { SchedulingRepositoryInMemory } from '../../../../../../tests/repository/scheduling-repository-in-memory';
 import { UsersRepositoryInMemory } from '../../../../../../tests/repository/users-repository-in-memory';
 import { CreateSchedulingUseCase } from '../create-scheduling-use-case';
+import { randomUUID } from 'node:crypto';
 
 let usersRepository: UsersRepositoryInMemory;
 let schedulingRepository: SchedulingRepositoryInMemory;
@@ -31,7 +32,7 @@ describe('Create scheduling test', () => {
       description: 'raspar o cabelo',
       schedulingEnd: new Date(startingScheduling.getTime() + (1 * 60 * 60 * 1000)),
       schedulingStart: startingScheduling,
-      selectedService: 1
+      serviceId: randomUUID()
     });
 
     expect(result.scheduling).toEqual(

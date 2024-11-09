@@ -3,7 +3,7 @@ import { Service, ServiceProps } from "../../enterprise/entities/Services";
 export interface ServicesRepository {
   create(data: Service): Promise<void>;
   update(id: string, data: UpdateService): Promise<ServiceProps>;
-  findById(id: string): Promise<ServiceProps>;
+  findById(id: string): Promise<ServiceProps | null>;
   list(params: ListParams): Promise<ListParamsResponse>;
   delete(id: string): Promise<void>;
 }

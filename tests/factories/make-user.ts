@@ -2,7 +2,7 @@ import { Client, ClientProps } from "../../src/domain/clients/enterprise/entitie
 import { ClientRoles } from "../../src/domain/clients/enterprise/enums/ClientRoles";
 import { faker } from '@faker-js/faker';
 import { prisma } from "../../src/infra/database/prisma";
-import { PrismaUserMapper } from "../../src/infra/database/mappers/prisma-user-mapping";
+import { PrismaUserMapper } from "../../src/infra/database/mappers/prisma-user-mapper";
 
 export function makeUser(
   override: Partial<ClientProps> = {},

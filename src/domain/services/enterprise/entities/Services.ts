@@ -35,10 +35,10 @@ export class Service {
     return this.props.durationInMinutes;
   }
 
-  static create(props: Omit<ServiceProps, "id">): Service {
+  static create(props: ServiceProps): Service {
     return new Service({
       ...props,
-      id: randomUUID(),
+      id: props.id ? props.id : randomUUID(),
     });
   }
 

@@ -6,7 +6,7 @@ import { SchedulingRepository } from "../repository/scheduling-repository";
 interface CreateSchedulingRequestDTO {
   attendantId: string;
   clientId: string;
-  selectedService: number;
+  serviceId: string;
   schedulingStart: Date;
   schedulingEnd: Date;
   description: string;
@@ -32,7 +32,7 @@ export class CreateSchedulingUseCase {
       rescheduled: false,
       schedulingEnd: new Date(data.schedulingEnd),
       schedulingStart: new Date(data.schedulingStart),
-      selectedService: data.selectedService
+      serviceId: data.serviceId
     });
 
     await this.schedulingRepository.create(scheduling);
