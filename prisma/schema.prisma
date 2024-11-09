@@ -73,10 +73,17 @@ model EmployeeOutDays {
 }
 
 model Service {
-  id            String       @id @default(uuid())
-  serviceNumber Int          @unique @map("service_number")
-  name          String
-  Scheduling    Scheduling[]
+  id String @id @default(uuid())
+
+  name              String
+  description       String
+  price             Int
+  durationInMinutes Int    @map("duration_in_minutes")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  Scheduling Scheduling[]
 }
 
 model Scheduling {
@@ -88,8 +95,8 @@ model Scheduling {
   UserClient User?  @relation("client-relation", fields: [clientId], references: [id])
   clientId   String @map("client_id")
 
-  Service         Service? @relation(fields: [selectedService], references: [serviceNumber])
-  selectedService Int      @map("selected_service")
+  Service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String   @map("service_id")
 
   schedulingStart DateTime @map("scheduling_start") @db.Time()
   schedulingEnd   DateTime @map("scheduling_end") @db.Time()
