@@ -8,7 +8,6 @@ import { FakeTokenGenerator } from '../../../../../../tests/jwt/fake-token-gener
 import { InvalidCredentialsError } from '../../../../../core/errors/invalid-credentials-error';
 
 let usersRepository: UsersRepositoryInMemory
-let usersTokensRepository: UsersTokensRepositoryInMemory;
 let fakeHasher: FakeHasher;
 let tokenGenerator: FakeTokenGenerator;
 let sut: AuthenticateClientUseCase
@@ -16,10 +15,9 @@ let sut: AuthenticateClientUseCase
 describe('Authenticate User', () => {
   beforeEach(() => {
     usersRepository = new UsersRepositoryInMemory();
-    usersTokensRepository = new UsersTokensRepositoryInMemory();
     fakeHasher = new FakeHasher();
     tokenGenerator = new FakeTokenGenerator();
-    sut = new AuthenticateClientUseCase(usersRepository, usersTokensRepository, fakeHasher, tokenGenerator);
+    sut = new AuthenticateClientUseCase(usersRepository, fakeHasher, tokenGenerator);
   })
 
   it('should be able to authenticate a user', async () => {

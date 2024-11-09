@@ -22,7 +22,6 @@ interface AuthenticateClientResponseDTO {
 export class AuthenticateClientUseCase {
   constructor(
     private clientsRepository: UsersRepository,
-    private userTokensRepository: UserTokensRepository,
     private hashComparer: HashComparer,
     private tokenGenerator: TokenGenerator
   ) { }
@@ -43,12 +42,6 @@ export class AuthenticateClientUseCase {
     const refreshTokenExpiresDate = add(new Date(), {
       days: Number(process.env.JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS)
     });
-
-    await this.userTokensRepository.create(
-      client.id,
-      refreshToken,
-      refreshTokenExpiresDate
-    );
 
     const tokenReturn = {
       token,

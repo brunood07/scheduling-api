@@ -1,8 +1,8 @@
 import HttpServer from "./http-server";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { healthCheckRoutes } from "../routes/health-check-routes";
 import { env } from "../../env";
+import { router } from "../routes";
 
 export default class ExpressAdapter implements HttpServer {
   app: any;
@@ -11,7 +11,7 @@ export default class ExpressAdapter implements HttpServer {
     this.app = express();
     this.app.use(express.json());
     this.app.use(cors());
-    this.app.use(healthCheckRoutes);
+    this.app.use(router);
   }
 
   on(method: string, url: string, callback: Function): void {

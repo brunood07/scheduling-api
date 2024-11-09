@@ -8,4 +8,8 @@ export class FakeTokenGenerator implements TokenGenerator {
   refreshToken(phoneNumber: string, id: string): string {
     return `${phoneNumber}-${id}`;
   }
+
+  decode(token: string): string {
+    return token;
+  }
 }

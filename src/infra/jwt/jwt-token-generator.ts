@@ -1,7 +1,6 @@
-import { sign } from "jsonwebtoken";
+import { sign, decode } from "jsonwebtoken";
 import { TokenGenerator } from "../../domain/clients/application/jwt/token-generator";
 import { env } from "../env";
-
 
 export class JwtTokenGenerator implements TokenGenerator {
   token(id: string): string {
@@ -22,4 +21,11 @@ export class JwtTokenGenerator implements TokenGenerator {
     return refreshToken;
   }
 
+  decode(token: string): string {
+    const { sub } = decode(token, {
+      json: true
+    }) as { sub: string }
+
+    return sub;
+  }
 }
