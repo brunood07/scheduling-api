@@ -1,4 +1,5 @@
-import { PhoneAlreadyRegisteredError } from "../../../../core/errors/phone-already-registered-error";
+import { HttpStatus } from "../../../../core/errors/http-status";
+import { HttpException } from "../../../../core/errors/HttpException";
 import { Client, ClientProps } from "../../enterprise/entities/Client";
 import { ClientRoles } from "../../enterprise/enums/ClientRoles";
 import { HasherGenerator } from "../cryptograph/hash-generator";
@@ -26,7 +27,7 @@ export class CreateClientUseCase {
     const { dateOfBirth, firstName, lastName, password, phoneNumber } = data;
     const clientExists = await this.usersRepository.findByPhoneNumber(phoneNumber);
 
-    if (clientExists) throw new PhoneAlreadyRegisteredError();
+    if (clientExists) throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY, "Phone number already registered");
 
     const hashedPassword = await this.hashGenerator.hash(password);
 

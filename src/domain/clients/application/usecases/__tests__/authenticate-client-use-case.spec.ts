@@ -3,9 +3,8 @@ import { FakeHasher } from '../../../../../../tests/cryptograph/fake-hasher';
 import { makeUser } from '../../../../../../tests/factories/make-user';
 import { UsersRepositoryInMemory } from '../../../../../../tests/repository/users-repository-in-memory';
 import { AuthenticateClientUseCase } from '../authenticate-client-use-case';
-import { UsersTokensRepositoryInMemory } from '../../../../../../tests/repository/users-tokens-repository-in-memory';
 import { FakeTokenGenerator } from '../../../../../../tests/jwt/fake-token-generator';
-import { InvalidCredentialsError } from '../../../../../core/errors/invalid-credentials-error';
+import { HttpException } from '../../../../../core/errors/HttpException';
 
 let usersRepository: UsersRepositoryInMemory
 let fakeHasher: FakeHasher;
@@ -39,7 +38,7 @@ describe('Authenticate User', () => {
     expect(sut.execute({
       phoneNumber: '11999999999',
       password: 'teste123'
-    })).rejects.toEqual(new InvalidCredentialsError());
+    })).rejects.toBeInstanceOf(HttpException);
   })
 
   it('should not be able ot authenticate a user with invalid password', async () => {
@@ -49,6 +48,6 @@ describe('Authenticate User', () => {
     expect(sut.execute({
       phoneNumber: '11999999999',
       password: 'teste1234'
-    })).rejects.toEqual(new InvalidCredentialsError())
+    })).rejects.toBeInstanceOf(HttpException);
   })
 })

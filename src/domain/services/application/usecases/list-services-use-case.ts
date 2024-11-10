@@ -18,7 +18,6 @@ export class ListServicesUseCase {
   constructor(private readonly serviceRepository: ServicesRepository) { }
 
   execute = async (params: ListServicesRequestDTO): Promise<ListServicesResponseDTO> => {
-
     const response = await this.serviceRepository.list(params);
 
     return {

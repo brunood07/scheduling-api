@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { PhoneAlreadyRegisteredError } from '../../../../../core/errors/phone-already-registered-error';
 import { CreateClientUseCase } from '../create-client-use-case';
 import { FakeHasher } from '../../../../../../tests/cryptograph/fake-hasher';
 import { UsersRepositoryInMemory } from '../../../../../../tests/repository/users-repository-in-memory';
+import { HttpException } from '../../../../../core/errors/HttpException';
 
 let usersRepository: UsersRepositoryInMemory;
 let fakeHasher: FakeHasher;
@@ -44,7 +44,7 @@ describe('Register client use case', () => {
       password: '123456',
       phoneNumber: '119999999',
       dateOfBirth: '1991-01-07'
-    })).rejects.toBeInstanceOf(PhoneAlreadyRegisteredError);
+    })).rejects.toBeInstanceOf(HttpException);
   });
 
   it('should be able to hash the client password', async () => {

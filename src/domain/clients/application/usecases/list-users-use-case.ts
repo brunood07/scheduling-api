@@ -19,7 +19,6 @@ export class ListUsersUseCase {
   constructor(private readonly usersRepository: UsersRepository) { }
 
   execute = async (params: ListUsersRequestDTO): Promise<ListUsersResponseDTO> => {
-
     const response = await this.usersRepository.list(params);
 
     return {

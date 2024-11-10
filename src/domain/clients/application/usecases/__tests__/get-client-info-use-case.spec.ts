@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { GetClientInfoUseCase } from '../get-client-info-use-case';
 import { UsersRepositoryInMemory } from '../../../../../../tests/repository/users-repository-in-memory';
 import { makeUser } from '../../../../../../tests/factories/make-user';
-import { UserNotFoundError } from '../../../../../core/errors/user-not-found-error';
+import { HttpException } from '../../../../../core/errors/HttpException';
 
 let usersRepository: UsersRepositoryInMemory;
 let sut: GetClientInfoUseCase;;
@@ -21,6 +21,6 @@ describe("Get client info use case", () => {
   });
 
   it("should not be able to return client info if client does not exist", async () => {
-    expect(sut.execute("123")).rejects.toBeInstanceOf(UserNotFoundError);
+    expect(sut.execute("123")).rejects.toBeInstanceOf(HttpException);
   });
 })

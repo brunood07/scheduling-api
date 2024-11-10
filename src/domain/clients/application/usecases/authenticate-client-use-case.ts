@@ -1,9 +1,9 @@
 import { UsersRepository } from '../repository/users-repository';
 import { HashComparer } from '../cryptograph/hash-comparer';
 import { add } from 'date-fns';
-import { UserTokensRepository } from '../repository/user-tokens-repository';
 import { TokenGenerator } from '../jwt/token-generator';
-import { InvalidCredentialsError } from '../../../../core/errors/invalid-credentials-error';
+import { HttpException } from '../../../../core/errors/HttpException';
+import { HttpStatus } from '../../../../core/errors/http-status';
 
 interface AuthenticateClientRequestDTO {
   phoneNumber: string;
@@ -31,10 +31,10 @@ export class AuthenticateClientUseCase {
     password
   }: AuthenticateClientRequestDTO): Promise<AuthenticateClientResponseDTO> => {
     const client = await this.clientsRepository.findByPhoneNumber(phoneNumber);
-    if (!client || !client.id) throw new InvalidCredentialsError();
+    if (!client || !client.id) throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid credentials");
 
     const passwordMatch = await this.hashComparer.compare(password, client.password);
-    if (!passwordMatch) throw new InvalidCredentialsError();
+    if (!client || !client.id) throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid credentials");
 
     const token = this.tokenGenerator.token(client.id);
     const refreshToken = this.tokenGenerator.refreshToken(phoneNumber, client.id);
