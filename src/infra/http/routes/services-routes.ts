@@ -22,6 +22,6 @@ serviceRoutes.post("/", verifyUserAdmin.authorize, createServiceController.handl
 serviceRoutes.delete("/:id", verifyUserAdmin.authorize, deleteServiceController.handle);
 serviceRoutes.get("/:id", verifyUserRoleMiddleware.authorize, getServiceInfoController.handle);
 serviceRoutes.get("/", verifyUserRoleMiddleware.authorize, listServicesController.handle);
-serviceRoutes.post("/", verifyUserAdmin.authorize, updateServiceController.handle);
+serviceRoutes.put("/", verifyUserAdmin.authorize, updateServiceController.handle);
 
 export { serviceRoutes };
